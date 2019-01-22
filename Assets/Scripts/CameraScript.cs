@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Camera : MonoBehaviour
+public class CameraScript : MonoBehaviour
 {
 
     private GameObject m_player;
@@ -21,13 +21,13 @@ public class Camera : MonoBehaviour
 
     }
 
-    // FixedUpdate is called per time interval therefore time frame independent
-    void FixedUpdate()
+    // LateUpdate is called once per frame after Update function is called
+    void LateUpdate()
     {
         Vector3 targetPos = m_player.transform.position + m_relativePosition;
 
         // Move the camera position to the target position smoothly
-        transform.position = targetPos;
-        //transform.position = Vector3.Lerp (transform.position, targetPos, m_cameraSpeed * Time.fixedDeltaTime);
+        //transform.position = targetPos;
+        transform.position = Vector3.Lerp (transform.position, targetPos, m_cameraSpeed * Time.deltaTime);
     }
 }
