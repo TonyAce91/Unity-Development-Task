@@ -49,7 +49,7 @@ public class JoystickInput : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         InputVector = (directionRatio.sqrMagnitude > 1) ? directionRatio.normalized : directionRatio;
 
         // limits the joystick's centre point inside the outer ring
-        m_joystick.anchoredPosition = InputVector;
+        m_joystick.anchoredPosition = InputVector * m_outerRadius * 0.5f;
     }
 
     // This is called when the pointer touches this script's gameObject

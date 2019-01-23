@@ -358,6 +358,7 @@ GameObject:
   - component: {fileID: 498028692}
   - component: {fileID: 498028694}
   - component: {fileID: 498028693}
+  - component: {fileID: 498028695}
   m_Layer: 5
   m_Name: RightBackground
   m_TagString: Untagged
@@ -422,6 +423,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 498028691}
   m_CullTransparentMesh: 0
+--- !u!114 &498028695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498028691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60b9234cbd9a3dc4c92817578590e038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_background: {fileID: 498028692}
+  m_joystick: {fileID: 939207067}
 --- !u!1 &534669902
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,6 +755,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 931577589, guid: a27c08d79352a6d48972848d08720ac5, type: 3}
+      propertyPath: m_leftJoystick
+      value: 
+      objectReference: {fileID: 1821564145}
+    - target: {fileID: 931577589, guid: a27c08d79352a6d48972848d08720ac5, type: 3}
+      propertyPath: m_rightJoystick
+      value: 
+      objectReference: {fileID: 498028695}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a27c08d79352a6d48972848d08720ac5, type: 3}
 --- !u!1 &939207066
@@ -1010,6 +1033,7 @@ GameObject:
   - component: {fileID: 1821564142}
   - component: {fileID: 1821564144}
   - component: {fileID: 1821564143}
+  - component: {fileID: 1821564145}
   m_Layer: 5
   m_Name: LeftBackground
   m_TagString: Untagged
@@ -1074,3 +1098,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1821564141}
   m_CullTransparentMesh: 0
+--- !u!114 &1821564145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821564141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60b9234cbd9a3dc4c92817578590e038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_background: {fileID: 1821564142}
+  m_joystick: {fileID: 689893927}

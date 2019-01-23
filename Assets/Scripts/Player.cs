@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     private Animator m_animator = null;
 
     private Vector3 m_velocity = Vector3.zero;
+    private Vector2 m_faceVector = Vector2.zero;
 
     [Header("Joystick references for mobile build")]
     [SerializeField] private JoystickInput m_leftJoystick = null;
@@ -31,6 +32,8 @@ public class Player : MonoBehaviour
         // Set all children transform to player layer
         foreach (Transform child in transform)
             child.gameObject.layer = m_playerLayer;
+
+        transform.forward = new Vector3(0, 0, 1);
     }
 
     // FixedUpdate is called per time interval therefore frame independent
@@ -43,6 +46,7 @@ public class Player : MonoBehaviour
         //if(touch.fingerId == 1)
         //{ }
         FaceDirection();
+        //Debug.Log("Face Direction: " + transform.forward);
         ApplyAnimation(m_leftJoystick.InputVector);
     }
 
@@ -56,21 +60,31 @@ public class Player : MonoBehaviour
     private void FaceDirection()
     {
         m_velocity.z = 0;
-        float angle = 0;
 
-        if (m_rightJoystick.Engaged)
-            angle = Vector2.SignedAngle(Vector2.up, m_rightJoystick.InputVector);
-        else
-            angle = Vector2.SignedAngle(Vector2.up, m_leftJoystick.InputVector);
+        m_faceVector = (m_rightJoystick.Engaged) ? m_rightJoystick.InputVector : m_leftJoystick.InputVector;
 
+        if (!m_rightJoystick.Engaged && !m_leftJoystick.Engaged)
+            return;
+
+        float angle = Vector2.SignedAngle(Vector2.up, m_faceVector);
+        Quaternion rotation = Quaternion.Euler(0, -angle, 0);
         transform.eulerAngles = new Vector3(0, -angle, 0);
 
     }
 
     private void ApplyAnimation(Vector2 inputVector)
     {
-        m_animator.SetFloat("VelX", inputVector.x * m_movementSpeed * Time.fixedDeltaTime);
-        m_animator.SetFloat("VelY", inputVector.y * m_movementSpeed * Time.fixedDeltaTime);
+        //transform.forward
+        if (m_rightJoystick.Engaged)
+            m_animator.SetTrigger("Fire");
+        //if (m_leftJoystick.Engaged && m_rightJoystick.Engaged)
+        //{
+            m_animator.SetFloat("VelX", Vector2.Dot(m_leftJoystick.InputVector, m_faceVector) * m_movementSpeed * Time.fixedDeltaTime);
+        //}
+        //else
+        //    m_animator.SetFloat("VelX", m_leftJoystick.InputVector.magnitude * m_movementSpeed * Time.fixedDeltaTime);
+        //m_animator.SetFloat("VelX", inputVector.x /*Vector3.Dot(transform.forward, ) */* m_movementSpeed * Time.fixedDeltaTime);
+        //m_animator.SetFloat("VelY", inputVector.y * m_movementSpeed * Time.fixedDeltaTime);
     }
 
     
