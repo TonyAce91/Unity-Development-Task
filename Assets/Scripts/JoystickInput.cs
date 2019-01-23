@@ -26,7 +26,6 @@ public class JoystickInput : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     public bool Engaged { get; private set; }
     #endregion
 
-
     // Start is called before the first frame update
     void Start()
     {
