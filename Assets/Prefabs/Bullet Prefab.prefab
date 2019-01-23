@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec4c9ffb027e0ac4d9e568640e1371c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speed: 10
+  m_speed: 70
   direction: {x: 0, y: 0, z: 0}
   m_lifetime: 2
   m_damage: 10

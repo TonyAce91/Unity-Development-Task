@@ -72,8 +72,8 @@ public class Player : MonoBehaviour
             return;
 
         float angle = Vector2.SignedAngle(Vector2.up, m_faceVector);
-        Quaternion rotation = Quaternion.Euler(0, -angle, 0);
-        transform.eulerAngles = new Vector3(0, -angle, 0);
+        Quaternion targetRotation = Quaternion.Euler(0, -angle, 0);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, m_turningSpeed * Time.deltaTime);
 
     }
 
