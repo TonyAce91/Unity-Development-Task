@@ -27,7 +27,7 @@ public class CameraScript : MonoBehaviour
         Vector3 targetPos = m_player.transform.position + m_relativePosition;
 
         // Move the camera position to the target position smoothly
-        //transform.position = targetPos;
-        transform.position = Vector3.Lerp (transform.position, targetPos, m_cameraSpeed * Time.deltaTime);
+        transform.position = targetPos;
+        //transform.position = Vector3.Lerp (transform.position, targetPos, m_cameraSpeed * Time.deltaTime);
     }
 }

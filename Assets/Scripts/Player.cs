@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
@@ -9,6 +10,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float m_movementSpeed = 80.0f;
     [SerializeField] private float m_turningSpeed = 180.0f;
+    [SerializeField] private float m_animationSpeed = 80.0f;
     [SerializeField] private int m_playerLayer = 9;
 
     private CharacterController m_controller = null;
@@ -20,6 +22,9 @@ public class Player : MonoBehaviour
     [Header("Joystick references for mobile build")]
     [SerializeField] private JoystickInput m_leftJoystick = null;
     [SerializeField] private JoystickInput m_rightJoystick = null;
+
+    [Header("Events")]
+    public UnityEvent shootEvent;
 
     // Start is called before the first frame update
     void Start()
@@ -74,12 +79,13 @@ public class Player : MonoBehaviour
 
     private void ApplyAnimation(Vector2 inputVector)
     {
+        m_controller.Move(new Vector3(inputVector.x, 0, inputVector.y) * m_movementSpeed * Time.fixedDeltaTime);
         //transform.forward
         if (m_rightJoystick.Engaged)
             m_animator.SetTrigger("Fire");
         //if (m_leftJoystick.Engaged && m_rightJoystick.Engaged)
         //{
-            m_animator.SetFloat("VelX", Vector2.Dot(m_leftJoystick.InputVector, m_faceVector) * m_movementSpeed * Time.fixedDeltaTime);
+        m_animator.SetFloat("VelX", Vector2.Dot(m_leftJoystick.InputVector, m_faceVector) * m_animationSpeed * Time.fixedDeltaTime);
         //}
         //else
         //    m_animator.SetFloat("VelX", m_leftJoystick.InputVector.magnitude * m_movementSpeed * Time.fixedDeltaTime);
@@ -87,5 +93,8 @@ public class Player : MonoBehaviour
         //m_animator.SetFloat("VelY", inputVector.y * m_movementSpeed * Time.fixedDeltaTime);
     }
 
-    
+    public void Shoot()
+    {
+        shootEvent.Invoke();
+    }
 }
