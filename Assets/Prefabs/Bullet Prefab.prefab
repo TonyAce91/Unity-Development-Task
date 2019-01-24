@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4452973117260868421}
   - component: {fileID: 8502799495275944277}
   - component: {fileID: 4406855569157186206}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Bullet Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,8 +84,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec4c9ffb027e0ac4d9e568640e1371c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speed: 1
-  direction: {x: 0, y: 0, z: 0}
   m_lifetime: 10
   m_damage: 10
   m_body: {fileID: 4452973117260868421}

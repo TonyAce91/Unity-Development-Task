@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This script controls the camera movement in game
+/// 
+/// Code written by Antoine Kenneth Odi in 2019
+/// </summary>
 public class CameraScript : MonoBehaviour
 {
-
     private GameObject m_player;
     [SerializeField] private Vector3 m_relativePosition = Vector3.zero;
     [SerializeField] private float m_cameraSpeed = 2f;
@@ -28,6 +32,5 @@ public class CameraScript : MonoBehaviour
 
         // Move the camera position to the target position smoothly
         transform.position = targetPos;
-        //transform.position = Vector3.Lerp (transform.position, targetPos, m_cameraSpeed * Time.deltaTime);
     }
 }

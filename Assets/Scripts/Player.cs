@@ -4,6 +4,12 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEditor;
 
+/// <summary>
+/// This is the class that controls the character of the player
+/// 
+/// Code written by Antoine Kenneth Odi in 2019
+/// </summary>
+
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour
@@ -65,14 +71,7 @@ public class Player : MonoBehaviour
     // FixedUpdate is called per time interval therefore frame independent
     void FixedUpdate()
     {
-        //// Reads user inputs
-        //float groundVertical = Input
-        //Touch touch = Input.GetTouch(0);
-        //touch.phase = TouchPhase.Began;
-        //if(touch.fingerId == 1)
-        //{ }
         GroundMovement();
-        //Debug.Log("Face Direction: " + transform.forward);
     }
 
 
@@ -82,28 +81,33 @@ public class Player : MonoBehaviour
         ApplyAnimation();
     }
 
+    // This function ground movement calculations and moves both the character controller and transform accordingly
     private void GroundMovement()
     {
         m_velocity.z = 0;
 
+        // Determines which direction to face depending on whether the right joystick has been engaged or not
         m_forwardVector = (m_rightJoystick.Engaged) ? m_rightJoystick.InputVector : m_leftJoystick.InputVector;
 
+        // Rotates the game object when either of the joystick has been engaged
         if (m_rightJoystick.Engaged || m_leftJoystick.Engaged)
         {
+            // Determines the angle of the input from a reference
             float angle = Vector2.SignedAngle(Vector2.up, m_forwardVector);
+
+            // Translate the rotation from euler angles to quaternion
             Quaternion targetRotation = Quaternion.Euler(0, -angle, 0);
+
+            // Rotate the game object from current to target rotation using turning speed
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, m_turningSpeed * Time.deltaTime);
         }
 
-
+        // Moves the character according to left joystick input
         m_controller.Move(new Vector3(m_leftJoystick.InputVector.x, m_gravity, m_leftJoystick.InputVector.y) * m_movementSpeed * Time.fixedDeltaTime);
     }
 
     private void ApplyAnimation()
     {
-        //transform.forward
-        //if (m_leftJoystick.Engaged && m_rightJoystick.Engaged)
-        //{
         m_animator.SetFloat("VelX", Vector2.Dot(m_leftJoystick.InputVector, m_forwardVector) * m_animationSpeed * Time.deltaTime);
         if (m_rightJoystick.Engaged)
         {
@@ -116,13 +120,10 @@ public class Player : MonoBehaviour
         {
             m_animator.SetBool("Fire", false);
         }
-        //}
-        //else
-        //    m_animator.SetFloat("VelX", m_leftJoystick.InputVector.magnitude * m_movementSpeed * Time.fixedDeltaTime);
-        //m_animator.SetFloat("VelX", inputVector.x /*Vector3.Dot(transform.forward, ) */* m_movementSpeed * Time.fixedDeltaTime);
-        //m_animator.SetFloat("VelY", inputVector.y * m_movementSpeed * Time.fixedDeltaTime);
     }
 
+    // Fire animation calls this function to invoke events a shot has been made
+    // This is more useful for timing slow animation with projectile spawning
     public void Shoot()
     {
         shootEvent.Invoke();
