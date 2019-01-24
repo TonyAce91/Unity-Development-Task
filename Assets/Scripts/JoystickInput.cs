@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEditor;
 
 /// <summary>
 /// This is the class that handles the input from virtual joystick used in mobile games
@@ -15,7 +16,7 @@ public class JoystickInput : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 {
     [Header ("Sprite references")]
     [SerializeField] private RectTransform m_background = null;
-    [SerializeField] private RectTransform m_joystick = null;
+    [SerializeField] private RectTransform m_handle = null;
 
     private Camera m_camera = new Camera();
     private Vector2 m_screenPos = Vector2.zero;
@@ -36,6 +37,8 @@ public class JoystickInput : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         // This is only accurate the width and length are equal
         // and the circle touches the edge of the square made by its anchor points
         m_outerRadius = m_background.sizeDelta.x / 2f;
+
+        VariableCheck();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -48,7 +51,7 @@ public class JoystickInput : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         InputVector = (directionRatio.sqrMagnitude > 1) ? directionRatio.normalized : directionRatio;
 
         // limits the joystick's centre point inside the outer ring
-        m_joystick.anchoredPosition = InputVector * m_outerRadius * 0.5f;
+        m_handle.anchoredPosition = InputVector * m_outerRadius * 0.5f;
     }
 
     // This is called when the pointer touches this script's gameObject
@@ -69,6 +72,34 @@ public class JoystickInput : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
         // Resets Input Vector and joystick position
         InputVector = Vector2.zero;
-        m_joystick.anchoredPosition = Vector2.zero;
+        m_handle.anchoredPosition = Vector2.zero;
+    }
+
+    // This is used to check for any null reference that could break the game
+    // This serves as a warning system for the developer. (This is not in the Joystick pack scripts)
+    private void VariableCheck()
+    {
+#if UNITY_EDITOR
+        if (UnityEditor.EditorApplication.isPlaying)
+        {
+            bool errorOccurred = false;
+
+            // Checks if any of the sprite needed for this script are not set
+            if (m_background == null)
+            {
+                EditorUtility.DisplayDialog("Error", "One of the joystick's background is not set", "Exit");
+                errorOccurred = true;
+            }
+            if (m_handle == null)
+            {
+                EditorUtility.DisplayDialog("Error", "One of the joystick's handle is not set", "Exit");
+                errorOccurred = true;
+            }
+
+            // Turns off the application if any error occurs
+            if (errorOccurred)
+                EditorApplication.isPlaying = false;
+        }
+#endif
     }
 }
