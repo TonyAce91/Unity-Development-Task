@@ -8,7 +8,7 @@ using UnityEditor;
 [RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour
 {
-
+    [SerializeField] private float m_gravity = -9.8f;
     [SerializeField] private float m_movementSpeed = 80.0f;
     [SerializeField] private float m_turningSpeed = 180.0f;
     [SerializeField] private float m_animationSpeed = 80.0f;
@@ -96,7 +96,7 @@ public class Player : MonoBehaviour
         }
 
 
-        m_controller.Move(new Vector3(m_leftJoystick.InputVector.x, 0, m_leftJoystick.InputVector.y) * m_movementSpeed * Time.fixedDeltaTime);
+        m_controller.Move(new Vector3(m_leftJoystick.InputVector.x, m_gravity, m_leftJoystick.InputVector.y) * m_movementSpeed * Time.fixedDeltaTime);
     }
 
     private void ApplyAnimation()
@@ -107,10 +107,14 @@ public class Player : MonoBehaviour
         m_animator.SetFloat("VelX", Vector2.Dot(m_leftJoystick.InputVector, m_forwardVector) * m_animationSpeed * Time.deltaTime);
         if (m_rightJoystick.Engaged)
         {
-            m_animator.SetTrigger("Fire");
+            m_animator.SetBool("Fire", true);
             Vector2 rightGroundVector = new Vector2(transform.right.x, transform.right.z);
             //Vector2 rightVector = forwardMagnitude * m_forwardVector
             m_animator.SetFloat("VelY", -Vector2.Dot(m_leftJoystick.InputVector, rightGroundVector) * m_animationSpeed * Time.deltaTime);
+        }
+        else
+        {
+            m_animator.SetBool("Fire", false);
         }
         //}
         //else
